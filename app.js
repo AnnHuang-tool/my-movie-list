@@ -21,6 +21,19 @@ app.get('/', (req, res) => {
   res.render('index', { movies: movieList.results })
 })
 
+app.get('/search', (req, res) => {
+  const keyword = req.query.keyword
+  const movies = movieList.results.filter(movie => {
+    return movie.title.toLowerCase().includes(keyword.toLowerCase())
+  })
+  res.render('index', { movies: movies, keyword: keyword })
+})
+
+app.get('/movie/:movie_id', (req, res) => {
+  const movie = movieList.results.find(movie => movie.id.toString() === req.params.movie_id)
+  res.render('show', { movie: movie })
+})
+
 // start and listen on the Express server
 app.listen(port, () => {
   console.log(`Express is listening on  http://localhost:${port}`)
